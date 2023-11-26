@@ -34,6 +34,71 @@ export function QuizPage() {
     setSliderValue6(value);
   };
 
+
+
+
+  //Mandar info al back-end
+  const enviarAlQuiz = async () => {
+    const datosUsuario = {
+      categoria1: sliderValue,
+      categoria2: sliderValue2,
+      categoria3: sliderValue3,
+      categoria4: sliderValue4,
+      categoria5: sliderValue5,
+      categoria6: sliderValue6,
+    };
+
+    try {
+      const respuesta = await fetch('http://localhost:5000/calcular_similitud', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ datos_usuario: datosUsuario }),
+      });
+
+      const datos = await respuesta.json();
+      console.log('Resultados de la similitud coseno:', datos.resultados);
+    } catch (error) {
+      console.error('Error al enviar datos al back-end:', error);
+    }
+  };
+
+
+
+
+//debugging -> comprobar que sirve la similitud
+
+  const datosUsuario = {
+    color_preferido: sliderValue,
+    estilo_preferido: sliderValue2,
+    textura_preferida: sliderValue3,
+    ajuste_ropa: sliderValue4,
+    importancia_tendencia: sliderValue5,
+  };
+
+  // Realizar la solicitud al backend
+  fetch('http://localhost:5000/calcular_similitud', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ datos_usuario: datosUsuario }),
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('Respuesta del servidor:', data);
+    // Puedes agregar más lógica aquí según la respuesta del servidor
+  })
+  .catch(error => {
+    console.error('Error en la solicitud:', error);
+  });
+
+
+
+
+
+  //resto del front PREGUNTAS
   return (
     <div className="bg-[#91B7DC] min-h-screen flex items-center justify-center">
       {/* Agrega el margen alrededor del card */}
@@ -235,6 +300,17 @@ export function QuizPage() {
           <span className="px-4">Muy dispuesto/a</span>{" "}
         </div>
       </div>
-    </div>
+
+
+{/* BOTÓN PARA ENVIAR LOS DATOS -> QUIZ */}
+<button
+onClick={enviarAlQuiz}
+className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+>Enviar al Quiz</button>
+
+</div>
+
   );
 }
+
+
