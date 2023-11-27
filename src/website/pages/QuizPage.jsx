@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
+import { NavLink } from "react-router-dom";
 
 export function QuizPage() {
   const [sliderValue, setSliderValue] = useState(1);
@@ -255,12 +256,14 @@ export function QuizPage() {
           <span className="px-4">Muy dispuesto/a</span>{" "}
         </div>
         {/* BOTÓN PARA ENVIAR LOS DATOS -> QUIZ */}
-        <button
-          onClick={enviarAlQuiz}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-20"
-        >
-          Enviar el Quiz
-        </button>
+        <NavLink to="/results">
+          <button
+            onClick={enviarAlQuiz}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-20"
+          >
+            Enviar el Quiz
+          </button>
+        </NavLink>
       </div>
     </div>
   );
