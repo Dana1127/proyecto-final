@@ -42,8 +42,7 @@ export function QuizPage() {
 
     try {
       const respuesta = await fetch(
-        "http://localhost:5000/calcular_similitud",
-        {
+        "http://127.0.0.1:5000/calcular_similitud", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -59,7 +58,7 @@ export function QuizPage() {
     }
   };
 
-  //debugging -> comprobar que sirve la similitud
+//debugging -> comprobar que sirve la similitud
 
   const datosUsuario = {
     color_preferido: sliderValue,
@@ -69,22 +68,30 @@ export function QuizPage() {
     importancia_tendencia: sliderValue5,
   };
 
-  // Realizar la solicitud al backend
-  fetch("http://localhost:5000/calcular_similitud", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ datos_usuario: datosUsuario }),
+  
+    // solicitud al backend - FETCH
+fetch("http://127.0.0.1:5000/calcular_similitud", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({ datos_usuario: datosUsuario }),
+})
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(`Error en la solicitud: ${response.statusText}`);
+    }
+    return response.json();
   })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Respuesta del servidor:", data);
-      // Puedes agregar más lógica aquí según la respuesta del servidor
-    })
-    .catch((error) => {
-      console.error("Error en la solicitud:", error);
-    });
+  .then((data) => {
+    console.log("Respuesta del servidor:", data);
+    console.log("¡Funciona!");
+
+  })
+  .catch((error) => {
+    console.error("Error en la solicitud:", error);
+  });
+
 
   //resto del front PREGUNTAS
   return (

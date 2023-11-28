@@ -13,9 +13,7 @@ listaDeTiendas = 'tiendas.csv'
 
 
 @app.route('/calcular_similitud', methods=['POST'])
-
 def calcular_similitud():
-
     try:
         datos_usuario = request.json['datos_usuario']
         datos_tiendas = obtener_datos_tiendas()
@@ -23,7 +21,6 @@ def calcular_similitud():
         # Datos a matriz
         datos_usuario_array = np.array([list(datos_usuario.values())])
         datos_tiendas_array = np.array(datos_tiendas)
-
 
         similitud_scores = cosine_similarity(datos_usuario_array, datos_tiendas_array)
 
@@ -35,6 +32,7 @@ def calcular_similitud():
     except Exception as e:
         print(f'Error en el servidor: {str(e)}')
         return jsonify({'error': str(e)}), 500
+
 
 
 
