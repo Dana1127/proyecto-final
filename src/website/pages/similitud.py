@@ -18,6 +18,15 @@ def calcular_similitud():
         datos_usuario = request.json['datos_usuario']
         datos_tiendas = obtener_datos_tiendas()
 
+
+        # Convertir los valores del diccionario a números si es posible
+        datos_usuario = {key: float(value) if isinstance(value, (int, float, str)) and value.replace('.', '', 1).isdigit() else value for key, value in datos_usuario.items()}
+
+        # Luego proceder con la creación de datos_usuario_array
+        datos_usuario_array = np.array([list(datos_usuario.values())])
+
+        
+
         # Datos a matriz
         datos_usuario_array = np.array([list(datos_usuario.values())])
         datos_tiendas_array = np.array(datos_tiendas)
@@ -30,7 +39,7 @@ def calcular_similitud():
         return jsonify({'resultados': resultados})
         
     except Exception as e:
-        print(f'Error en el servidor: {str(e)}')
+        app.logger.error('Error en el servidor: %s', str(e))
         return jsonify({'error': str(e)}), 500
 
 
